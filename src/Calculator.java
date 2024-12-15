@@ -9,7 +9,7 @@ public class Calculator implements ActionListener {
     JTextField textField;
     JButton[] numberButtons = new JButton[10];
     JButton[] functionButtons = new JButton[8];
-    JButton addButton, SubButton, mulButton, divButton;
+    JButton addButton, subButton, mulButton, divButton;
     JButton decButton, equButton, delButton, clrButton;
     JPanel jPanel;
 
@@ -24,6 +24,47 @@ public class Calculator implements ActionListener {
         frame.setSize(450, 550);
         frame.setLayout(null);
 
+        textField = new JTextField();
+        textField.setBounds(50, 25, 300, 50);
+        textField.setFont(font);
+        textField.setEditable(false);
+
+        addButton = new JButton("+");
+        subButton = new JButton("-");
+        mulButton = new JButton("*");
+        divButton = new JButton("/");
+        decButton = new JButton(".");
+        equButton = new JButton("=");
+        delButton = new JButton("Del");
+        clrButton = new JButton("AC");
+
+        functionButtons[0] = addButton;
+        functionButtons[1] = subButton;
+        functionButtons[2] = mulButton;
+        functionButtons[3] = divButton;
+        functionButtons[4] = decButton;
+        functionButtons[5] = equButton;
+        functionButtons[6] = delButton;
+        functionButtons[7] = clrButton;
+
+        for (int i = 0; i < 8; i++) {
+            functionButtons[i].addActionListener(this);
+            functionButtons[i].setFont(font);
+            functionButtons[i].setFocusable(false);
+        }
+
+        for (int i = 0; i < 10; i++) {
+            numberButtons[i] = new JButton(String.valueOf(i));
+            numberButtons[i].setFont(font);
+            numberButtons[i].setFocusable(false);
+        }
+
+        delButton.setBounds(50, 430, 145, 50);
+        clrButton.setBounds(205, 430, 145, 50);
+
+        frame.add(delButton);
+        frame.add(clrButton);
+        frame.add(textField);
         frame.setVisible(true);
     }
 
