@@ -15,8 +15,10 @@ public class Calculator implements ActionListener {
 
     Font font = new Font("Ubuntu", Font.BOLD, 30);
 
-    double num1=0,num2=0,result=0;
+    double num1=0,num2=0;
+    String result;
     char operator;
+    Timer timer;
 
     Calculator() {
         frame = new JFrame("Calculator");
@@ -95,10 +97,6 @@ public class Calculator implements ActionListener {
         frame.setVisible(true);
     }
 
-    public static void main(String[] args) {
-        Calculator calculator = new Calculator();
-    }
-
     @Override
     public void actionPerformed(ActionEvent e) {
         for (int i = 0; i < 10; i++) {
@@ -134,20 +132,25 @@ public class Calculator implements ActionListener {
 
             switch (operator) {
                 case '+':
-                    result = num1 + num2;
+                    result = String.valueOf(num1 + num2);
                     break;
                 case '-':
-                    result = num1 - num2;
+                    result = String.valueOf(num1 - num2);
                     break;
                 case '*':
-                    result = num1 * num2;
+                    result = String.valueOf(num1 * num2);
                     break;
                 case '/':
-                    result = num1 / num2;
+                    if (num2 == 0) {
+                        result = "На 0 делить нельзя";
+                        blockInput();
+                    } else {
+                        result = String.valueOf(num1 / num2);
+                    }
                     break;
             }
             textField.setText(String.valueOf(result));
-            num1 = result;
+            num1 = Double.parseDouble(result);
         }
         if(e.getSource() == clrButton) {
             textField.setText("");
@@ -164,5 +167,31 @@ public class Calculator implements ActionListener {
             temp*=-1;
             textField.setText(String.valueOf(temp));
         }
+    }
+
+    private void blockInput() {
+        for (JButton button : functionButtons) {
+            button.setEnabled(false);
+        }
+        for (JButton button : numberButtons) {
+            button.setEnabled(false);
+        }
+
+        timer = new Timer(3000, e -> {
+            textField.setText("");
+            for (JButton button : functionButtons) {
+                button.setEnabled(true);
+            }
+            for (JButton button : numberButtons) {
+                button.setEnabled(true);
+            }
+        });
+
+        timer.setRepeats(false);
+        timer.start();
+    }
+
+    public static void main(String[] args) {
+        Calculator calculator = new Calculator();
     }
 }
